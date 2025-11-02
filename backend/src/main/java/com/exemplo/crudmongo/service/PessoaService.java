@@ -32,6 +32,15 @@ public class PessoaService {
         return repository.findAll();
     }
 
+    public List<Pessoa> buscarPorNome(String nome) {
+    return repository.findByNomeContainingIgnoreCase(nome);
+}
+
+public List<Pessoa> buscarPorIdade(int idade) {
+    return repository.findByIdade(idade);
+}
+
+    
     /**
      * Salva uma nova pessoa no banco de dados.
      * @param pessoa Objeto Pessoa a ser salvo

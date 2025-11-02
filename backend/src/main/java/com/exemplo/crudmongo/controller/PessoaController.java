@@ -31,6 +31,36 @@ public class PessoaController {
     public List<Pessoa> listar() {
         return service.listarTodas();
     }
+@GetMapping("/nome")
+public List<String> buscarPorNome(@RequestParam(value = "valor", required = false, defaultValue = "") String nome) {
+    return service.buscarPorNome(nome)
+            .stream()
+            .map(Pessoa::getNome) // pega só o campo "nome"
+            .toList(); // converte de volta para lista
+}
+
+
+
+@GetMapping("/idade")
+public List<Integer> buscarPorIdade(
+    @RequestParam(value = "valor", required = false) Integer idade) {
+
+    if (idade == null) {
+        // se nenhum valor foi passado, retorna todas as idades
+        return service.listarTodas()
+                .stream()
+                .map(Pessoa::getIdade)
+                .toList();
+    }
+
+    // senão, busca apenas a idade informada
+    return service.buscarPorIdade(idade)
+            .stream()
+            .map(Pessoa::getIdade)
+            .toList();
+}
+
+
 
     /**
      * Cria uma nova pessoa.
@@ -43,6 +73,7 @@ public class PessoaController {
         return service.salvar(pessoa);
     }
 
+   
     /**
      * Atualiza uma pessoa existente pelo ID.
      * Método acessível via PUT em /pessoas/{id}
